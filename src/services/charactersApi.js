@@ -53,6 +53,20 @@ function mergeCharacters(primaryCharacters, secondaryCharacters) {
   return Array.from(charactersById.values());
 }
 
+function isGitHubPages() {
+  return typeof window !== "undefined" && window.location.hostname.endsWith("github.io");
+}
+
+async function fetchStaticCharacters() {
+  const staticResponse = await fetch(STATIC_CHARACTERS_URL);
+
+  if (!staticResponse.ok) {
+    throw new Error("No se pudieron cargar los personajes estáticos");
+  }
+
+  return await staticResponse.json();
+}
+
 function slugify(value) {
   return value
     .toLowerCase()
@@ -91,6 +105,14 @@ function normalizeLocalCharacter(characterData, existingId) {
 }
 
 export async function fetchCharacters() {
+  if (isGitHubPages()) {
+    try {
+      return mergeCharacters(await fetchStaticCharacters(), getLocalCharacters());
+    } catch {
+      return getLocalCharacters();
+    }
+  }
+
   try {
     const response = await fetch(API_URL);
 
@@ -101,13 +123,7 @@ export async function fetchCharacters() {
     return await response.json();
   } catch {
     try {
-      const staticResponse = await fetch(STATIC_CHARACTERS_URL);
-
-      if (!staticResponse.ok) {
-        throw new Error("No se pudieron cargar los personajes estáticos");
-      }
-
-      return mergeCharacters(await staticResponse.json(), getLocalCharacters());
+      return mergeCharacters(await fetchStaticCharacters(), getLocalCharacters());
     } catch {
       return getLocalCharacters();
     }
