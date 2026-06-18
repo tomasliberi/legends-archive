@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Hanken+Grotesk:wght@400;500;600;700&family=Geist:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    min-width: 320px;
+    overflow-x: hidden;
+    background-color: #0e0e0e;
+    background-image:
+      radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
+      url("https://www.transparenttextures.com/patterns/dark-matter.png");
+    color: #e5e2e1;
+  }
+
+  ::selection {
+    background: rgba(212, 175, 55, 0.35);
+    color: #fff7d6;
+  }
+}
+
+@layer components {
+  .epic-title {
+    font-variant: small-caps;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.65);
+  }
+
+  .fantasy-card {
+    position: relative;
+    border: 1px solid #4d4635;
+    background: #1c1b1b;
+    transition: all 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+  }
+
+  .fantasy-card::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 8px;
+    z-index: 5;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .fantasy-card:hover {
+    transform: translateY(-8px);
+    border-color: #d4af37;
+    box-shadow: 0 0 35px rgba(212, 175, 55, 0.18);
+  }
+
+  .fantasy-card:hover::before {
+    border-color: rgba(212, 175, 55, 0.6);
+  }
+
+  .ornate-corner {
+    position: absolute;
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    border-color: #d4af37;
+  }
+
+  .corner-tl {
+    left: 0;
+    top: 0;
+    border-left: 2px solid;
+    border-top: 2px solid;
+  }
+
+  .corner-tr {
+    right: 0;
+    top: 0;
+    border-right: 2px solid;
+    border-top: 2px solid;
+  }
+
+  .corner-bl {
+    bottom: 0;
+    left: 0;
+    border-bottom: 2px solid;
+    border-left: 2px solid;
+  }
+
+  .corner-br {
+    bottom: 0;
+    right: 0;
+    border-bottom: 2px solid;
+    border-right: 2px solid;
+  }
+
+  .gold-border-btn {
+    border: 1px solid #d4af37;
+    background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0) 100%);
+  }
+
+  .gold-border-btn:hover {
+    background: #d4af37;
+    color: #241a00;
+  }
+
+  .danger-border-btn {
+    border: 1px solid rgba(210, 75, 75, 0.7);
+    background: linear-gradient(180deg, rgba(210, 75, 75, 0.12) 0%, rgba(210, 75, 75, 0) 100%);
+    color: #f09b9b;
+  }
+
+  .danger-border-btn:hover {
+    background: #d24b4b;
+    color: #230909;
+  }
+
+  .black-paper {
+    background-image: url("https://www.transparenttextures.com/patterns/black-paper.png");
+  }
+
+  .stat-pill {
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #d4af37;
+  }
+
+  .footer-link {
+    font-family: "Cinzel", serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #d0c5af;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: #d4af37;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(77, 70, 53, 0.6);
+    padding-bottom: 0.75rem;
+  }
+
+  .detail-row:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .detail-row dt {
+    font-family: "Geist", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: rgba(208, 197, 175, 0.72);
+  }
+
+  .detail-row dd {
+    text-align: right;
+    color: #e5e2e1;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-field span {
+    font-family: "Geist", sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #d4af37;
+  }
+
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    width: 100%;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    background: rgba(0, 0, 0, 0.28);
+    padding: 0.85rem 1rem;
+    color: #e5e2e1;
+    outline: none;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .form-field input[type="file"] {
+    padding: 0.75rem;
+  }
+
+  .form-field select option {
+    background: #151515;
+    color: #e5e2e1;
+  }
+
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+  }
+
+  .form-field input::placeholder,
+  .form-field textarea::placeholder {
+    color: rgba(208, 197, 175, 0.5);
+  }
+}

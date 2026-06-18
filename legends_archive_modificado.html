@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>LEGENDS ARCHIVE | Archivo de Campañas</title>
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Hanken+Grotesk:wght@400;500;600;700&family=Geist:wght@400;500&display=swap" rel="stylesheet"/>
+
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#d4af37",
+            background: "#131313",
+            surface: "#1c1b1b",
+            "surface-dark": "#0e0e0e",
+            "surface-card": "#201f1f",
+            "on-surface": "#e5e2e1",
+            "on-surface-variant": "#d0c5af",
+            outline: "#4d4635"
+          },
+          fontFamily: {
+            display: ["Cinzel", "serif"],
+            body: ["Hanken Grotesk", "sans-serif"],
+            label: ["Geist", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0e0e0e;
+      background-image:
+        radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
+        url('https://www.transparenttextures.com/patterns/dark-matter.png');
+      color: #e5e2e1;
+      overflow-x: hidden;
+    }
+
+    .epic-title {
+      text-shadow: 0 4px 10px rgba(0,0,0,0.65);
+      font-variant: small-caps;
+    }
+
+    .fantasy-card {
+      border: 1px solid #4d4635;
+      position: relative;
+      background: #1c1b1b;
+      transition: all 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+    }
+
+    .fantasy-card::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .fantasy-card:hover {
+      transform: translateY(-8px);
+      border-color: #d4af37;
+      box-shadow: 0 0 35px rgba(212, 175, 55, 0.18);
+    }
+
+    .fantasy-card:hover::before {
+      border-color: rgba(212, 175, 55, 0.6);
+    }
+
+    .ornate-corner {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: #d4af37;
+      z-index: 10;
+    }
+
+    .corner-tl { top: 0; left: 0; border-top: 2px solid; border-left: 2px solid; }
+    .corner-tr { top: 0; right: 0; border-top: 2px solid; border-right: 2px solid; }
+    .corner-bl { bottom: 0; left: 0; border-bottom: 2px solid; border-left: 2px solid; }
+    .corner-br { bottom: 0; right: 0; border-bottom: 2px solid; border-right: 2px solid; }
+
+    .cinematic-scrim {
+      background: linear-gradient(0deg, rgba(14,14,14,1) 0%, rgba(14,14,14,0.72) 45%, rgba(14,14,14,0) 100%);
+    }
+
+    .gold-border-btn {
+      border: 1px solid #d4af37;
+      background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0) 100%);
+    }
+
+    .gold-border-btn:hover {
+      background: #d4af37;
+      color: #241a00;
+    }
+
+    .hidden-section {
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="font-body text-on-surface">
+
+  <nav class="sticky top-0 z-50 bg-[#0e0e0e]/90 backdrop-blur-md border-b border-primary/20">
+    <div class="flex justify-between items-center w-full px-6 md:px-16 py-4 max-w-[1440px] mx-auto">
+      <button onclick="showHome()" class="font-display text-2xl md:text-3xl font-bold text-primary tracking-widest epic-title">
+        LEGENDS ARCHIVE
+      </button>
+
+      <div class="hidden md:flex gap-8 items-center">
+        <button onclick="showHome()" class="font-display text-lg text-primary border-b border-primary pb-1 tracking-widest">
+          Jugadores
+        </button>
+        <a class="font-display text-lg text-on-surface-variant hover:text-primary transition-colors tracking-widest" href="#estadisticas">
+          Estadísticas
+        </a>
+        <a class="font-display text-lg text-on-surface-variant hover:text-primary transition-colors tracking-widest" href="#archivo">
+          Archivo
+        </a>
+      </div>
+
+      <button class="hover:scale-110 transition-transform duration-200">
+        <span class="material-symbols-outlined text-primary text-3xl">shield</span>
+      </button>
+    </div>
+  </nav>
+
+  <section id="home-section">
+    <header class="relative w-full min-h-[430px] flex flex-col justify-end px-6 md:px-16 pb-16 max-w-[1440px] mx-auto overflow-hidden border-b border-primary/10">
+      <div class="absolute inset-0 z-0 opacity-20" style="background-image: url('https://www.transparenttextures.com/patterns/black-paper.png');"></div>
+
+      <div class="relative z-10 space-y-4">
+        <p class="font-label text-xs text-primary tracking-[0.3em] uppercase">Archivo privado de campañas</p>
+        <h1 class="font-display text-5xl md:text-7xl tracking-[0.1em] text-on-surface uppercase epic-title">
+          Crónicas de <span class="text-primary">Rol</span>
+        </h1>
+        <div class="w-24 h-1 bg-primary mb-6"></div>
+        <p class="text-lg text-on-surface-variant max-w-2xl italic">
+          Un registro para guardar jugadores, personajes, campañas, sesiones memorables,
+          muertes heroicas, objetos legendarios y toda la historia de sus partidas.
+        </p>
+      </div>
+    </header>
+
+    <main class="px-6 md:px-16 py-16 max-w-[1440px] mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-6">
+        <div>
+          <p class="font-label text-xs text-primary tracking-[0.3em] uppercase mb-3">Seleccioná un jugador</p>
+          <h2 class="font-display text-3xl md:text-4xl text-on-surface epic-title">Mesa principal</h2>
+        </div>
+
+        <p class="font-label text-xs text-primary tracking-widest uppercase opacity-70">5 aventureros registrados</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
+
+        <article onclick="showPlayer('Sol')" class="fantasy-card group relative min-h-[390px] overflow-hidden cursor-pointer p-8 flex flex-col justify-end">
+          <div class="ornate-corner corner-tl"></div><div class="ornate-corner corner-tr"></div><div class="ornate-corner corner-bl"></div><div class="ornate-corner corner-br"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-[#2d2410] via-[#181818] to-black opacity-80"></div>
+          <div class="relative z-20">
+            <span class="text-6xl block mb-8">⚔️</span>
+            <span class="font-label text-[10px] bg-black/60 text-primary border border-primary/50 px-3 py-1 uppercase">Jugadora</span>
+            <h3 class="font-display text-3xl text-on-surface tracking-wider epic-title mt-4">Sol</h3>
+            <p class="text-on-surface-variant mt-3">4 personajes interpretados</p>
+            <p class="font-label text-xs text-primary tracking-widest uppercase mt-6 opacity-0 group-hover:opacity-100 transition-all">
+              Ver personajes →
+            </p>
+          </div>
+        </article>
+
+        <article onclick="showPlayer('Tomi')" class="fantasy-card group relative min-h-[390px] overflow-hidden cursor-pointer p-8 flex flex-col justify-end">
+          <div class="ornate-corner corner-tl"></div><div class="ornate-corner corner-tr"></div><div class="ornate-corner corner-bl"></div><div class="ornate-corner corner-br"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-[#10212d] via-[#181818] to-black opacity-80"></div>
+          <div class="relative z-20">
+            <span class="text-6xl block mb-8">🧙</span>
+            <span class="font-label text-[10px] bg-black/60 text-primary border border-primary/50 px-3 py-1 uppercase">Jugador</span>
+            <h3 class="font-display text-3xl text-on-surface tracking-wider epic-title mt-4">Tomi</h3>
+            <p class="text-on-surface-variant mt-3">3 personajes interpretados</p>
+            <p class="font-label text-xs text-primary tracking-widest uppercase mt-6 opacity-0 group-hover:opacity-100 transition-all">
+              Ver personajes →
+            </p>
+          </div>
+        </article>
+
+        <article onclick="showPlayer('Nico')" class="fantasy-card group relative min-h-[390px] overflow-hidden cursor-pointer p-8 flex flex-col justify-end">
+          <div class="ornate-corner corner-tl"></div><div class="ornate-corner corner-tr"></div><div class="ornate-corner corner-bl"></div><div class="ornate-corner corner-br"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-[#102d1c] via-[#181818] to-black opacity-80"></div>
+          <div class="relative z-20">
+            <span class="text-6xl block mb-8">🏹</span>
+            <span class="font-label text-[10px] bg-black/60 text-primary border border-primary/50 px-3 py-1 uppercase">Jugador</span>
+            <h3 class="font-display text-3xl text-on-surface tracking-wider epic-title mt-4">Nico</h3>
+            <p class="text-on-surface-variant mt-3">3 personajes interpretados</p>
+            <p class="font-label text-xs text-primary tracking-widest uppercase mt-6 opacity-0 group-hover:opacity-100 transition-all">
+              Ver personajes →
+            </p>
+          </div>
+        </article>
+
+        <article onclick="showPlayer('Agus')" class="fantasy-card group relative min-h-[390px] overflow-hidden cursor-pointer p-8 flex flex-col justify-end">
+          <div class="ornate-corner corner-tl"></div><div class="ornate-corner corner-tr"></div><div class="ornate-corner corner-bl"></div><div class="ornate-corner corner-br"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-[#2d1010] via-[#181818] to-black opacity-80"></div>
+          <div class="relative z-20">
+            <span class="text-6xl block mb-8">🛡️</span>
+            <span class="font-label text-[10px] bg-black/60 text-primary border border-primary/50 px-3 py-1 uppercase">Jugador</span>
+            <h3 class="font-display text-3xl text-on-surface tracking-wider epic-title mt-4">Agus</h3>
+            <p class="text-on-surface-variant mt-3">2 personajes interpretados</p>
+            <p class="font-label text-xs text-primary tracking-widest uppercase mt-6 opacity-0 group-hover:opacity-100 transition-all">
+              Ver personajes →
+            </p>
+          </div>
+        </article>
+
+        <article onclick="showPlayer('Fede')" class="fantasy-card group relative min-h-[390px] overflow-hidden cursor-pointer p-8 flex flex-col justify-end">
+          <div class="ornate-corner corner-tl"></div><div class="ornate-corner corner-tr"></div><div class="ornate-corner corner-bl"></div><div class="ornate-corner corner-br"></div>
+          <div class="absolute inset-0 bg-gradient-to-b from-[#21102d] via-[#181818] to-black opacity-80"></div>
+          <div class="relative z-20">
+            <span class="text-6xl block mb-8">🐉</span>
+            <span class="font-label text-[10px] bg-black/60 text-primary border border-primary/50 px-3 py-1 uppercase">Jugador</span>
+            <h3 class="font-display text-3xl text-on-surface tracking-wider epic-title mt-4">Fede</h3>
+            <p class="text-on-surface-variant mt-3">3 personajes interpretados</p>
+            <p class="font-label text-xs text-primary tracking-widest uppercase mt-6 opacity-0 group-hover:opacity-100 transition-all">
+              Ver personajes →
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <section id="estadisticas" class="mt-24 grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div class="fantasy-card p-8">
+          <p class="font-label text-xs text-primary uppercase tracking-widest">Campañas</p>
+          <p class="font-display text-5xl mt-4">8</p>
+        </div>
+        <div class="fantasy-card p-8">
+          <p class="font-label text-xs text-primary uppercase tracking-widest">Personajes</p>
+          <p class="font-display text-5xl mt-4">15</p>
+        </div>
+        <div class="fantasy-card p-8">
+          <p class="font-label text-xs text-primary uppercase tracking-widest">Sesiones</p>
+          <p class="font-display text-5xl mt-4">42</p>
+        </div>
+        <div class="fantasy-card p-8">
+          <p class="font-label text-xs text-primary uppercase tracking-widest">Muertes épicas</p>
+          <p class="font-display text-5xl mt-4">6</p>
+        </div>
+      </section>
+    </main>
+  </section>
+
+  <section id="player-section" class="hidden-section px-6 md:px-16 py-16 max-w-[1440px] mx-auto">
+    <button onclick="showHome()" class="gold-border-btn text-primary px-8 py-3 font-display text-sm tracking-[0.2em] uppercase transition-all">
+      ← Volver a jugadores
+    </button>
+
+    <div class="mt-12 mb-12">
+      <p class="font-label text-xs text-primary tracking-[0.3em] uppercase">Perfil del jugador</p>
+      <h1 id="player-name" class="font-display text-5xl md:text-7xl tracking-[0.1em] text-on-surface uppercase epic-title mt-4"></h1>
+      <div class="w-24 h-1 bg-primary mt-6"></div>
+      <p id="player-description" class="text-lg text-on-surface-variant max-w-2xl italic mt-6"></p>
+    </div>
+
+    <div id="characters-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+  </section>
+
+  <footer class="w-full mt-auto border-t border-primary/20 bg-[#0e0e0e]">
+    <div class="flex flex-col md:flex-row justify-between items-center px-6 md:px-16 py-12 w-full max-w-[1440px] mx-auto">
+      <div class="mb-8 md:mb-0">
+        <div class="font-display text-3xl text-primary mb-2 epic-title">LEGENDS ARCHIVE</div>
+        <p class="font-label text-xs text-on-surface-variant opacity-60 tracking-wider">
+          Archivo privado de campañas, héroes y leyendas.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-10">
+        <a class="font-display text-xs text-on-surface-variant hover:text-primary transition-colors tracking-widest uppercase" href="#">Campañas</a>
+        <a class="font-display text-xs text-on-surface-variant hover:text-primary transition-colors tracking-widest uppercase" href="#">Personajes</a>
+        <a class="font-display text-xs text-on-surface-variant hover:text-primary transition-colors tracking-widest uppercase" href="#">Sesiones</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const players = {
+      Sol: {
+        description: "Jugadora estratégica, fan de personajes con pasado oscuro, decisiones difíciles y momentos dramáticos.",
+        characters: [
+          { name: "Elyra Moonblade", className: "Paladina", race: "Elfa", campaign: "La Corona Negra", description: "Una guerrera sagrada que busca limpiar el nombre de su orden caída." },
+          { name: "Nyx", className: "Pícara", race: "Tiefling", campaign: "Sombras de Valdoria", description: "Ladrona carismática, experta en engaños, secretos y escapes imposibles." },
+          { name: "Mira", className: "Clériga", race: "Humana", campaign: "El Reino Hundido", description: "Sanadora marcada por visiones de una diosa olvidada." },
+          { name: "Kaelis", className: "Hechicera", race: "Semielfa", campaign: "Las Ruinas del Norte", description: "Nació con magia salvaje y teme perder el control en batalla." }
+        ]
+      },
+      Tomi: {
+        description: "Jugador creativo, suele elegir personajes raros, caóticos y con mucho potencial narrativo.",
+        characters: [
+          { name: "Tharion", className: "Mago", race: "Humano", campaign: "La Corona Negra", description: "Estudioso obsesionado con descifrar grimorios prohibidos." },
+          { name: "Brom", className: "Bárbaro", race: "Enano", campaign: "Montañas Rojas", description: "Guerrero frontal, ruidoso y fiel a sus compañeros." },
+          { name: "Silas", className: "Bardo", race: "Mediano", campaign: "Sombras de Valdoria", description: "Músico viajero que oculta información peligrosa detrás de sus canciones." }
+        ]
+      },
+      Nico: {
+        description: "Jugador táctico, amante de exploradores, arqueros y personajes con mucha precisión.",
+        characters: [
+          { name: "Aren", className: "Explorador", race: "Elfo del bosque", campaign: "Bosque Eterno", description: "Rastreador silencioso que conoce caminos que no figuran en ningún mapa." },
+          { name: "Darius", className: "Guerrero", race: "Humano", campaign: "La Guerra del Norte", description: "Soldado veterano que intenta dejar atrás su pasado militar." },
+          { name: "Korr", className: "Druida", race: "Firbolg", campaign: "El Reino Hundido", description: "Protector de criaturas antiguas y bosques sagrados." }
+        ]
+      },
+      Agus: {
+        description: "Jugador de personajes fuertes, protectores y con decisiones muy directas.",
+        characters: [
+          { name: "Ragnar", className: "Guerrero", race: "Humano", campaign: "La Corona Negra", description: "Espadachín honorable que carga con la culpa de una batalla perdida." },
+          { name: "Gorim", className: "Clérigo", race: "Enano", campaign: "Montañas Rojas", description: "Sacerdote de batalla que cura con una mano y golpea con la otra." }
+        ]
+      },
+      Fede: {
+        description: "Jugador impredecible, fan de criaturas extrañas, magia y momentos épicos inesperados.",
+        characters: [
+          { name: "Zarok", className: "Brujo", race: "Dracónido", campaign: "Pacto de Cenizas", description: "Hizo un pacto con una entidad que todavía no comprende." },
+          { name: "Lorien", className: "Druida", race: "Elfo", campaign: "Bosque Eterno", description: "Guardián de un santuario destruido por invasores." },
+          { name: "Pip", className: "Artificiero", race: "Gnomo", campaign: "Las Ruinas del Norte", description: "Inventor brillante, impulsivo y peligroso cerca de explosivos." }
+        ]
+      }
+    };
+
+    function showHome() {
+      document.getElementById("home-section").style.display = "block";
+      document.getElementById("player-section").style.display = "none";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showPlayer(playerName) {
+      const player = players[playerName];
+
+      document.getElementById("home-section").style.display = "none";
+      document.getElementById("player-section").style.display = "block";
+
+      document.getElementById("player-name").innerText = playerName;
+      document.getElementById("player-description").innerText = player.description;
+
+      const grid = document.getElementById("characters-grid");
+      grid.innerHTML = "";
+
+      player.characters.forEach(character => {
+        grid.innerHTML += `
+          <article class="fantasy-card p-8">
+            <div class="ornate-corner corner-tl"></div>
+            <div class="ornate-corner corner-tr"></div>
+            <div class="ornate-corner corner-bl"></div>
+            <div class="ornate-corner corner-br"></div>
+
+            <p class="font-label text-[10px] text-primary uppercase tracking-[0.25em]">
+              ${character.campaign}
+            </p>
+
+            <h2 class="font-display text-3xl text-on-surface epic-title mt-4">
+              ${character.name}
+            </h2>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <span class="border border-primary/40 text-primary px-3 py-1 text-xs uppercase">
+                ${character.className}
+              </span>
+              <span class="border border-primary/40 text-primary px-3 py-1 text-xs uppercase">
+                ${character.race}
+              </span>
+            </div>
+
+            <p class="text-on-surface-variant mt-6 leading-7">
+              ${character.description}
+            </p>
+
+            <button class="gold-border-btn text-primary px-6 py-3 mt-8 font-display text-xs tracking-[0.2em] uppercase transition-all">
+              Ver historia
+            </button>
+          </article>
+        `;
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
+</body>
+</html>
