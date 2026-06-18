@@ -1,4 +1,5 @@
 const API_URL = "/api/characters";
+const STATIC_CHARACTERS_URL = `${import.meta.env.BASE_URL}data/characters.json`;
 const STORAGE_KEY = "legends-archive-characters";
 
 function canUseStorage() {
@@ -40,6 +41,16 @@ function updateLocalCharacter(characterId, character) {
 
 function deleteLocalCharacter(characterId) {
   writeLocalCharacters(getLocalCharacters().filter((item) => item.id !== characterId));
+}
+
+function mergeCharacters(primaryCharacters, secondaryCharacters) {
+  const charactersById = new Map();
+
+  [...primaryCharacters, ...secondaryCharacters].forEach((character) => {
+    charactersById.set(character.id, character);
+  });
+
+  return Array.from(charactersById.values());
 }
 
 function slugify(value) {
@@ -89,7 +100,17 @@ export async function fetchCharacters() {
 
     return await response.json();
   } catch {
-    return getLocalCharacters();
+    try {
+      const staticResponse = await fetch(STATIC_CHARACTERS_URL);
+
+      if (!staticResponse.ok) {
+        throw new Error("No se pudieron cargar los personajes estáticos");
+      }
+
+      return mergeCharacters(await staticResponse.json(), getLocalCharacters());
+    } catch {
+      return getLocalCharacters();
+    }
   }
 }
 
