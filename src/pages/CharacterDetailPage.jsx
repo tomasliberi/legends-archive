@@ -2,6 +2,7 @@ import { ArrowLeft, Pencil, Plus, ScrollText, Shield, Swords, Trash2 } from "luc
 import { useEffect, useState } from "react";
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import OrnateCorners from "../components/OrnateCorners.jsx";
+import CharacterPortrait from "../components/CharacterPortrait.jsx";
 import { getCampaignById, getPlayerById, getSessionsByCampaign } from "../data/mockData.js";
 import { deleteCharacter, fetchCharacters } from "../services/charactersApi.js";
 
@@ -95,13 +96,10 @@ export default function CharacterDetailPage() {
           </h1>
           <div className="mt-6 h-1 w-24 bg-primary" />
 
-          {character.photo ? (
-            <img
-              src={character.photo}
-              alt={character.name}
-              className="mt-8 aspect-[16/9] w-full border border-primary/30 object-cover"
-            />
-          ) : null}
+          <CharacterPortrait
+            character={character}
+            frameClassName="mt-8 aspect-[16/9] w-full border border-primary/30"
+          />
 
           <p className="mt-8 text-xl italic leading-9 text-on-surface-variant">
             {character.description}

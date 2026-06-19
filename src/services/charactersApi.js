@@ -76,6 +76,11 @@ function slugify(value) {
     .replace(/(^-|-$)/g, "");
 }
 
+function normalizePortraitValue(value, fallback, min, max) {
+  const parsedValue = Number(value);
+  return Number.isFinite(parsedValue) ? Math.min(max, Math.max(min, parsedValue)) : fallback;
+}
+
 function normalizeLocalCharacter(characterData, existingId) {
   const baseId = slugify(characterData.name || "personaje");
   const traits =
@@ -97,6 +102,9 @@ function normalizeLocalCharacter(characterData, existingId) {
     campaignId: characterData.campaignId || "mesa-principal",
     status: characterData.status || "Vivo",
     photo: characterData.photo || "",
+    photoPositionX: normalizePortraitValue(characterData.photoPositionX, 50, 0, 100),
+    photoPositionY: normalizePortraitValue(characterData.photoPositionY, 50, 0, 100),
+    photoZoom: normalizePortraitValue(characterData.photoZoom, 1, 1, 3),
     description: characterData.description || "Sin descripción todavía.",
     backstory: characterData.backstory || "Historia pendiente de escribir.",
     traits,

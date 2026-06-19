@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getCampaignById } from "../data/mockData.js";
 import { deleteCharacter } from "../services/charactersApi.js";
 import OrnateCorners from "./OrnateCorners.jsx";
+import CharacterPortrait from "./CharacterPortrait.jsx";
 
 export default function CharacterCard({ character, onDeleted }) {
   const campaign = getCampaignById(character.campaignId);
@@ -22,13 +23,10 @@ export default function CharacterCard({ character, onDeleted }) {
     <article className="fantasy-card p-8">
       <OrnateCorners />
 
-      {character.photo ? (
-        <img
-          src={character.photo}
-          alt={character.name}
-          className="mb-6 aspect-[4/3] w-full border border-primary/30 object-cover"
-        />
-      ) : null}
+      <CharacterPortrait
+        character={character}
+        frameClassName="mb-6 aspect-[4/3] w-full border border-primary/30"
+      />
 
       <p className="font-label text-[10px] uppercase tracking-[0.25em] text-primary">
         {campaign?.name ?? "Campaña desconocida"}

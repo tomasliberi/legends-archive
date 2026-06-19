@@ -2,6 +2,7 @@ import { Save, Trash2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Navigate, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import OrnateCorners from "../components/OrnateCorners.jsx";
+import { getPortraitStyle } from "../components/CharacterPortrait.jsx";
 import { campaigns, players } from "../data/mockData.js";
 import {
   createCharacter,
@@ -20,6 +21,9 @@ const initialForm = {
   campaignId: "mesa-principal",
   status: "Vivo",
   photo: "",
+  photoPositionX: 50,
+  photoPositionY: 50,
+  photoZoom: 1,
   description: "",
   backstory: "",
   traits: "",
@@ -36,6 +40,9 @@ function characterToForm(character) {
     campaignId: character.campaignId ?? initialForm.campaignId,
     status: character.status ?? initialForm.status,
     photo: character.photo ?? "",
+    photoPositionX: character.photoPositionX ?? 50,
+    photoPositionY: character.photoPositionY ?? 50,
+    photoZoom: character.photoZoom ?? 1,
     description: character.description ?? "",
     backstory: character.backstory ?? "",
     traits: Array.isArray(character.traits) ? character.traits.join(", ") : character.traits ?? "",
@@ -289,6 +296,7 @@ export default function CharacterFormPage({ mode = "create" }) {
                   src={preview || form.photo}
                   alt="Vista previa del personaje"
                   className="h-full w-full object-cover"
+                  style={getPortraitStyle(form)}
                 />
               ) : (
                 <div className="flex h-full items-center justify-center px-8 text-center text-on-surface-variant">
@@ -306,6 +314,62 @@ export default function CharacterFormPage({ mode = "create" }) {
               <span>O pegar URL de imagen</span>
               <input value={form.photo.startsWith("data:") ? "" : form.photo} onChange={handlePhotoUrl} />
             </label>
+
+            {preview || form.photo ? (
+              <div className="mt-6 space-y-5 border-t border-primary/20 pt-6">
+                <label className="form-field">
+                  <span>Posición horizontal: {form.photoPositionX}%</span>
+                  <input
+                    name="photoPositionX"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={form.photoPositionX}
+                    onChange={updateField}
+                  />
+                </label>
+
+                <label className="form-field">
+                  <span>Posición vertical: {form.photoPositionY}%</span>
+                  <input
+                    name="photoPositionY"
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={form.photoPositionY}
+                    onChange={updateField}
+                  />
+                </label>
+
+                <label className="form-field">
+                  <span>Zoom: {Number(form.photoZoom).toFixed(1)}x</span>
+                  <input
+                    name="photoZoom"
+                    type="range"
+                    min="1"
+                    max="3"
+                    step="0.1"
+                    value={form.photoZoom}
+                    onChange={updateField}
+                  />
+                </label>
+
+                <button
+                  type="button"
+                  className="gold-border-btn w-full px-4 py-3 font-display text-xs uppercase tracking-[0.18em] text-primary transition-all"
+                  onClick={() =>
+                    setForm((currentForm) => ({
+                      ...currentForm,
+                      photoPositionX: 50,
+                      photoPositionY: 50,
+                      photoZoom: 1,
+                    }))
+                  }
+                >
+                  Centrar imagen
+                </button>
+              </div>
+            ) : null}
           </section>
 
           <section className="fantasy-card p-8">
