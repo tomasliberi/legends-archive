@@ -9,6 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dataDir = path.join(__dirname, "data");
 const charactersFile = path.join(dataDir, "characters.json");
+const campaignsFile = path.join(dataDir, "campaigns.json");
 const app = express();
 const port = process.env.PORT ?? 8080;
 
@@ -47,6 +48,44 @@ async function readCharacters() {
 async function writeCharacters(characters) {
   await ensureStore();
   await writeFile(charactersFile, `${JSON.stringify(characters, null, 2)}\n`, "utf8");
+}
+
+async function readCampaigns() {
+  await ensureStore();
+  const content = await readFile(campaignsFile, "utf8");
+  const parsedContent = JSON.parse(content.replace(/^\uFEFF/, ""));
+  return Array.isArray(parsedContent) ? parsedContent : [parsedContent];
+}
+
+async function writeCampaigns(campaigns) {
+  await writeFile(campaignsFile, `${JSON.stringify(campaigns, null, 2)}\n`, "utf8");
+}
+
+function normalizeCampaign(campaignData, existingCampaign = {}) {
+  return {
+    ...existingCampaign,
+    id: existingCampaign.id ?? `${slugify(campaignData.name || "campaña")}-${Date.now()}`,
+    name: campaignData.name,
+    status: campaignData.status || "Activa",
+    summary: campaignData.summary || "Sin resumen todavía.",
+    history: campaignData.history || "La historia de esta campaña todavía no fue escrita.",
+    photos: Array.isArray(campaignData.photos)
+      ? campaignData.photos
+          .map((photo) =>
+            typeof photo === "string"
+              ? { src: photo, positionX: 50, positionY: 50, zoom: 1 }
+              : {
+                  src: photo?.src ?? "",
+                  positionX: normalizePortraitValue(photo?.positionX, 50, 0, 100),
+                  positionY: normalizePortraitValue(photo?.positionY, 50, 0, 100),
+                  zoom: normalizePortraitValue(photo?.zoom, 1, 1, 3),
+                },
+          )
+          .filter((photo) => photo.src)
+      : [],
+    createdAt: existingCampaign.createdAt ?? new Date().toISOString(),
+    updatedAt: existingCampaign.id ? new Date().toISOString() : existingCampaign.updatedAt,
+  };
 }
 
 function normalizeCharacter(characterData, existingCharacter = {}) {
@@ -166,6 +205,65 @@ app.delete("/api/characters/:id", async (request, response, next) => {
     const updatedCharacters = characters.filter((item) => item.id !== request.params.id);
     await writeCharacters(updatedCharacters);
 
+    response.status(204).send();
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.get("/api/campaigns", async (_request, response, next) => {
+  try {
+    response.json(await readCampaigns());
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/campaigns", async (request, response, next) => {
+  try {
+    if (!request.body.name) {
+      response.status(400).json({ message: "El nombre es obligatorio" });
+      return;
+    }
+
+    const campaigns = await readCampaigns();
+    const newCampaign = normalizeCampaign(request.body);
+    await writeCampaigns([...campaigns, newCampaign]);
+    response.status(201).json(newCampaign);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put("/api/campaigns/:id", async (request, response, next) => {
+  try {
+    const campaigns = await readCampaigns();
+    const campaignIndex = campaigns.findIndex((item) => item.id === request.params.id);
+
+    if (campaignIndex === -1) {
+      response.status(404).json({ message: "Campaña no encontrada" });
+      return;
+    }
+
+    campaigns[campaignIndex] = normalizeCampaign(request.body, campaigns[campaignIndex]);
+    await writeCampaigns(campaigns);
+    response.json(campaigns[campaignIndex]);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.delete("/api/campaigns/:id", async (request, response, next) => {
+  try {
+    const campaigns = await readCampaigns();
+    const updatedCampaigns = campaigns.filter((item) => item.id !== request.params.id);
+
+    if (updatedCampaigns.length === campaigns.length) {
+      response.status(404).json({ message: "Campaña no encontrada" });
+      return;
+    }
+
+    await writeCampaigns(updatedCampaigns);
     response.status(204).send();
   } catch (error) {
     next(error);

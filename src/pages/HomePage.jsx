@@ -70,13 +70,21 @@ export default function HomePage() {
         <StatsSection characterCount={characters.length} />
 
         <section id="archivo" className="mt-24">
-          <div className="mb-10">
+          <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
             <p className="mb-3 font-label text-xs uppercase tracking-[0.3em] text-primary">
               Archivo de campañas
             </p>
             <h2 className="font-display text-3xl text-on-surface epic-title md:text-4xl">
               Crónicas abiertas
             </h2>
+            </div>
+            <Link
+              to="/campanas"
+              className="gold-border-btn px-6 py-3 text-center font-display text-xs uppercase tracking-[0.2em] text-primary transition-all"
+            >
+              Ver todas las campañas
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">

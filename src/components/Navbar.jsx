@@ -25,6 +25,9 @@ export default function Navbar() {
           <NavLink to="/" className={linkClass}>
             Jugadores
           </NavLink>
+          <NavLink to="/campanas" className={linkClass}>
+            Campañas
+          </NavLink>
           <a
             className="font-display text-lg tracking-widest text-on-surface-variant transition-colors hover:text-primary"
             href="/#estadisticas"
@@ -43,6 +46,9 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-3 text-primary">
+          <NavLink to="/campanas" className="font-display text-xs uppercase tracking-widest md:hidden">
+            Campañas
+          </NavLink>
           <Archive className="hidden h-5 w-5 md:block" aria-hidden="true" />
           <Shield className="h-7 w-7" aria-hidden="true" />
         </div>
